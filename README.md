@@ -9,5 +9,5 @@
 
 ## Cara menjalankan app
 
-1. Install seluruh dependency dengan menjalankan file `[WINDOWS] Install.bat`
-2. Lalu, jalankan `[WINDOWS] Run App.bat`
+1. Install seluruh dependency dengan menjalankan file `Install` sesuai dengan OS yang digunakan
+2. Lalu, jalankan `Run App`
