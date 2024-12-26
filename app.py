@@ -1,15 +1,20 @@
 import streamlit as st
-from datetime import datetime
+from datetime import datetime, timedelta
 import subprocess
 
-st.title("Crawling anjay mabar")
+col1, col2 = st.columns([1, 8])
+with col1:
+    st.image("assets/Socialabs-Logo.svg", width=100)
+with col2:
+    st.title("Socialabs Data Crawling")
+    st.write("")
 
 with st.form(key='tweet_harvest'):
     token = st.text_input("Auth Token")
     keyword = st.text_input("Keyword")
-    start_date = st.date_input("Tanggal Mulai", datetime.now())
+    start_date = st.date_input("Tanggal Mulai", datetime.now() - timedelta(days=1))
     end_date = st.date_input("Tanggal Selesai", datetime.now())
-    limit = st.number_input("Limit", 500)
+    limit = st.number_input("Limit", 20)
     
     search_keyword = f'{keyword} until:{end_date} since:{start_date}'
 
@@ -19,19 +24,9 @@ if submit_button:
     filename = f'crawling_{keyword}_{start_date}_{end_date}.csv'
 
     with st.spinner('Crawling..'):
-        command = [
-            'C:\\Program Files\\nodejs\\npx.cmd', '--yes', 'tweet-harvest@latest',
-            '-o', filename,
-            '-s', search_keyword,
-            '-l', str(limit),
-            '--token', token
-            ]
+        result = subprocess.check_call(f'npx --yes tweet-harvest@latest -o "{filename}" -s "{search_keyword}" -l {str(limit)} --token "{token}"', shell=True)
 
-        result = subprocess.run(command, capture_output=True, text=True)
-
-    st.write(result.stdout)
-    st.write(result.stderr)
-
-    st.success(f"Crawling berhasil! Data berhasil disimpan dalam file {filename}")
+    st.success(f"Crawling berhasil!")
+    st.success(f"Data berhasil disimpan di tweets-data/{filename}")
 
     # !npx --yes tweet-harvest@latest -o "{filename}" -s "{search_keyword}" -l {limit} --token "{token}"
