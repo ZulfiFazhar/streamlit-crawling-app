@@ -46,7 +46,7 @@ with tab1:
 with tab2:
     st.subheader("Upload File")
     uploaded_file = st.file_uploader("Select a file to upload")
-    parent_folder_id = "19d6syPiQT2goctAl2XwZ_u55AwYrw90V"
+    parent_folder_id = "1w3kBu8fvzHhLcXhecNwynaOTySF2lwA5"
 
     if uploaded_file:
         temp_dir = "temp_uploads/"
@@ -56,7 +56,7 @@ with tab2:
         with open(temp_file_path, "wb") as f:
             f.write(uploaded_file.getbuffer())
 
-        st.success(f"Files are successfully saved temporarily: {temp_file_path}")
+        st.success(f"File are successfully saved temporarily: {temp_file_path}")
 
         if st.button("Upload File"):
             today = datetime.now().strftime('%Y-%m-%d')
@@ -64,7 +64,7 @@ with tab2:
                 with st.spinner('Uploading file...'):
                     date_folder_id = create_folder(today, parent_folder_id)
                     upload_file(temp_dir, date_folder_id)
-                    st.success(f"File successfully uploaded to Google Drive in the Socialabs-Data/{today}")
+                    st.success(f"File are successfully uploaded to Google Drive in the Socialabs/Crawling/{today}")
             except Exception as e:
                 st.error(f"Error during upload: {e}")
             finally:
