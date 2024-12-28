@@ -5,7 +5,6 @@ import streamlit as st
 from datetime import datetime, timedelta
 from drive.upload import upload_file, create_folder
 
-
 col1, col2 = st.columns([1, 8])
 with col1:
     st.image("assets/Socialabs-Logo.svg", width=100)
@@ -16,14 +15,21 @@ with col2:
 tab1, tab2 = st.tabs(["Crawling Data", "Upload to Google Drive"])
 
 with tab1:
+    language_option = {
+        "Bahasa Indonesia": "id",
+        "English": "en"}
+    
     with st.form(key='tweet_harvest'):
         token = st.text_input("Auth Token")
         keyword = st.text_input("Keyword")
+        language = st.selectbox("Language", list(language_option.keys()))
         start_date = st.date_input("Tanggal Mulai", datetime.now() - timedelta(days=1))
         end_date = st.date_input("Tanggal Selesai", datetime.now())
         limit = st.number_input("Limit", 20)
         
-        search_keyword = f'{keyword} until:{end_date} since:{start_date}'
+        language_id = language_option[language]
+
+        search_keyword = f'{keyword} lang:{language_id} until:{end_date} since:{start_date}'
 
         submit_button = st.form_submit_button(label='Start')
 
